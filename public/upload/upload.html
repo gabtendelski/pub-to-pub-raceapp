@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timer</title>
+    <title>Upload</title>
     <link rel="stylesheet" href="../style.css">
-    <script src="timer.js"defer></script>
+    <script src="upload.js" defer></script>
+    <script src="../app.js"></script>
 </head>
 <body>
     <header class="header">
         <nav>        
             <a href="../index.html">home</a>
-            <a href="timer.html">timer</a>
-            <a href="">upload</a>
+            <a href="../timer/timer.html">timer</a>
+            <a href="upload.html">upload</a>
         </nav>
     </header>
     <div class="container">
@@ -22,18 +23,9 @@
                 <th>Time</th>
             </tr>
         </table>
-        <div>
-            <div id="timer">00:00:00:00</div>
-            <button id="start">Start</button>
-            <button id="stop">Stop</button>
+        <div id="upload-container">
+            <button id="upload-to-server">Upload to server</button>
         </div>
     </div>
 </body>
 </html>
-
-<template id="position-template">
-    <tr>
-        <td class="posInRace">1</td>
-        <td class="posTime">00:00:00:00</td>
-    </tr>
-</template>

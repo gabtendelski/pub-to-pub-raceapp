@@ -1,11 +1,11 @@
 {
-    "name": "myapp",
+    "name": "raceapp",
     "version": "1.0.0",
     "description": "Pub to pub race app",
     "main": "server.js",
     "type": "module",
     "scripts": {
-        "start": "node server.js"
+        "start": "cd server && node server.js"
     },
     "dependencies": {
         "express": "^4.21.2"

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="timer.js"defer></script>
+    <script src="../app.js"></script>
+
+</head>
+<body>
+    <header class="header">
+        <nav>        
+            <a href="../index.html">home</a>
+            <a href="timer.html">timer</a>
+            <a href="../upload/upload.html">upload</a>
+        </nav>
+    </header>
+    <div class="container">
+        <table id="positions">
+            <tr>
+                <th>Position</th>
+                <th>Time</th>
+            </tr>
+        </table>
+        <div id="timer-container">
+            <div id="timer-display">
+                <div id="timer">00:00:00:00</div>
+                <button id="stop">Stop</button>
+            </div>
+            <div id="start-container">
+                <button id="start">Start</button>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>
+
+<template id="position-template">
+    <tr>
+        <td class="posInRace">1</td>
+        <td class="posTime">00:00:00:00</td>
+    </tr>
+</template>

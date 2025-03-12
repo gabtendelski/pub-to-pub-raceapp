@@ -1,0 +1,132 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    color: #FFFBCA;
+    font-size: 2em;
+    overflow: hidden;
+}
+
+a {
+    color: #FFFBCA;
+    text-decoration: none;
+}
+
+button {
+    color: #FFFBCA;
+    background-color: rgb(46, 40, 46);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 95vh;
+    background-color: #6151c9;
+    position: relative;
+}
+
+.header {
+    display: flex;
+    width: 100vw;
+    height: 5vh;
+    background-color: #4635B1;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+tr {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 1em;
+    margin-left: 1em;
+}
+
+
+
+#timer-container{
+    width: 100vw;
+    height: 50vh;
+    z-index: 1;
+    position: absolute;
+    margin-top: 50vh;
+    background-color: #6151c9;
+}
+
+#timer {
+    width: 50vw;
+    margin-left: 0.5em;
+}
+
+#timer-display {
+    display: flex;
+    flex-direction: row;
+    height: 10vh;
+    align-items: center;
+}
+
+#upload-button{
+    display: flex;
+    width: 100vw;
+    height: 50vh;
+    justify-content: center;
+    align-items: center;
+    background-color: #B771E5;
+}
+#timer-button {
+    display: flex;
+    width: 100vw;
+    height: 50vh;
+    justify-content: center;
+    align-items: center;
+    background-color: #AEEA94;
+}
+
+#positions {
+    display: flex;
+    width: 100vw;
+    height: 50vh;
+    flex-direction: column;
+    background-color: #928ac9;
+    overflow: auto;
+}
+
+#stop {
+    width: 50vw;
+    height: 4em;
+    margin: 1em;
+}
+
+#start-container {
+    display: flex;
+    width: 100vw;
+    height: 40vh;
+    justify-content: center;
+    align-items: center;
+}
+
+#upload-container {
+    display: flex;
+    width: 100vw;
+    height: 45vh;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 1;
+    margin-top: 50vh;
+}
+
+#start {
+    width: 90vw;
+    height: 30vh;
+    margin-bottom: 10vh;
+}
+
+#upload-to-server {
+    width: 50vw;
+    height: 4em;
+    margin: 1em;
+}
