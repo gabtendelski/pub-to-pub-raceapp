@@ -91,7 +91,7 @@ tr {
     height: 50vh;
     flex-direction: column;
     background-color: #928ac9;
-    overflow: auto;
+    overflow-y: auto;
 }
 
 #stop {

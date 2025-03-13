@@ -1,4 +1,4 @@
-const CACHE_NAME = 'static-cache';
+const CACHE_NAME = 'static-cache-v1';
 const STATIC_ASSETS = [
     '/',
     '/index.html',
@@ -48,6 +48,9 @@ async function fetchAssets(event) {
 }
 
 self.addEventListener('fetch', (event) => {
-    console.log('Service Worker activating.');
-    event.respondWith(fetchAssets(event));
+  if (event.request.url.includes('indexeddb')) {
+    return;
+  }
+  console.log('Service Worker activating.');
+  event.respondWith(fetchAssets(event));
 });
