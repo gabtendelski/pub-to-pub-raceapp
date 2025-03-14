@@ -85,7 +85,7 @@ tr {
     background-color: #AEEA94;
 }
 
-#positions {
+.positions {
     display: flex;
     width: 100vw;
     height: 50vh;

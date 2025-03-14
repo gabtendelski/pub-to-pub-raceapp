@@ -18,10 +18,13 @@
         </nav>
     </header>
     <div class="container">
-        <table id="positions">
+        <table class="positions">
             <tr>
                 <th>Position</th>
                 <th>Time</th>
+                <th>
+                    <button class="cleardb">Clear</button>
+                </th>
             </tr>
         </table>
         <div id="timer-container">
@@ -38,9 +41,19 @@
 </body>
 </html>
 
-<template id="position-template">
+<template class="position-template">
     <tr>
         <td class="posInRace">1</td>
         <td class="posTime">00:00:00:00</td>
+    </tr>
+</template>
+
+<template class="position-header-template">
+    <tr>
+        <th id="position-header">Position</th>
+        <th id="time-header">Time</th>
+        <th id="clear-header">
+            <button class="cleardb">Clear</button>
+        </th>
     </tr>
 </template>

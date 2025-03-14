@@ -2,26 +2,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     const start = document.querySelector('#start');
     const stop = document.querySelector('#stop');
     const timer = document.querySelector('#timer');
-    const positions = document.querySelector('#positions');
+    const positions = document.querySelector('.positions');
+    const clear = document.querySelector('.cleardb');
 
-    const db = await new Promise((resolve, reject) => {
-        const request = window.indexedDB.open('positionsDB', 1);
-        request.onupgradeneeded = function(event) {
-            let db = event.target.result;
-            if(!db.objectStoreNames.contains('racePositions')) {
-                db.createObjectStore('racePositions', {autoIncrement: true});
-                console.log('created object store');
-            }
-        };
-        request.onsuccess = function(event) {
-            console.log('opened database');
-            resolve(event.target.result);
-        };
-        request.onerror = function(event) {
-            console.log('error opening database', event.target.errorCode);
-            reject(event.target.errorCode);
-        };
-    });
+    const db = await createDB();
+
+    await fillPositions();
 
     let isRunning = false;
     let startTime = 0;
@@ -30,23 +16,44 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     start.addEventListener('click', startTimer);
     stop.addEventListener('click', stopTimer);
+    clear.addEventListener('click', clearDB);
 
 
 
     function startTimer() {
-        console.log('started timer');
         if(!isRunning) { 
-            startTime = performance.now(); 
+            console.log('started timer');
+            if(timer.textContent === '00:00:00:00') {
+                startTime = performance.now(); 
+            } else {
+                startTime = performance.now() - time;
+            }
             isRunning = true;
+            start.textContent = 'Lap';
+            stop.textContent = 'Stop';
         } else {
             addPosition(performance.now() - startTime);
+            addPositionToDB(performance.now() - startTime);
+
         }
         updateTimer();
     }
 
     function stopTimer(){
-        console.log('stopped timer');
-        isRunning = false;
+        if(isRunning) {
+            console.log('stopped timer');
+            isRunning = false;
+            stop.textContent = 'Restart';
+            start.textContent = 'Start';
+        } else if(!isRunning && stop.textContent === 'Restart') {
+            console.log('timer restarted');
+            startTime = performance.now(); 
+            isRunning = true;
+            stop.textContent = 'Stop';
+            start.textContent = 'Lap';
+            updateTimer();
+        }
+
     }
 
     function updateTimer() {
@@ -67,44 +74,60 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
 
-    function getPositions(){
-        let transaction = db.transaction('racePositions', 'readonly');
-        let store = transaction.objectStore('racePositions');
-        let request = store.getAll();
-
-        request.onsuccess = function(event){
-            console.log('got positions', event.target.result);
-        }
-        request.onerror = function(event){
-            console.log('error getting positions', event.target.errorCode);
-        }
+    async function createDB(){
+        return new Promise((resolve, reject) => {
+            const request = window.indexedDB.open('positionsDB', 1);
+            request.onupgradeneeded = function(event) {
+                let db = event.target.result;
+                if(!db.objectStoreNames.contains('racePositions')) {
+                    db.createObjectStore('racePositions', {autoIncrement: true});
+                    console.log('created object store');
+                }
+            };
+            request.onsuccess = function(event) {
+                console.log('opened database');
+                resolve(event.target.result);
+            };
+            request.onerror = function(event) {
+                console.log('error opening database', event.target.errorCode);
+                reject(event.target.errorCode);
+            };
+        });
     }
 
-    function isDatabaseEmpty(){
+
+    function getPositions(){
         return new Promise((resolve, reject) => {
-            const transaction = db.transaction('racePositions', 'readonly');
-            const store = transaction.objectStore('racePositions');
-            const request = store.count();
+            let transaction = db.transaction('racePositions', 'readonly');
+            let store = transaction.objectStore('racePositions');
+            let request = store.getAll();
+    
             request.onsuccess = function(event){
-                resolve(event.target.result.length === 0);
+                console.log('got positions', event.target.result);
+                resolve(event.target.result);
             }
             request.onerror = function(event){
+                console.log('error getting positions', event.target.errorCode);
                 reject(event.target.errorCode);
             }
         });
+        
+
     }
+
     
 
     function addPosition(currentTime){
-        const posTemplate = document.querySelector('#position-template');
+        const posTemplate = document.querySelector('.position-template');
         const pos = posTemplate.content.cloneNode(true);
         let posTime = pos.querySelector('.posTime');
         let posInRace = pos.querySelector('.posInRace');
         posTime.textContent = setTimer(currentTime);
         posInRace.textContent = positions.children.length;
         positions.appendChild(pos);
+    }
 
-
+    function addPositionToDB(currentTime){
         let transaction = db.transaction('racePositions', 'readwrite');
         let store = transaction.objectStore('racePositions');
         let request = store.add({time: currentTime});
@@ -116,8 +139,25 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
 
         getPositions();
-        //console.log(isDatabaseEmpty());
+    }
+
+    async function fillPositions(){
+        getPositions().then(positionsList => {
+            positionsList.forEach(pos => {
+                addPosition(pos.time);
+            });
+        });
     }
 
 
+    function clearDB(){ //needs work, deletes data, but requires a reload
+        indexedDB.deleteDatabase('positionsDB');
+        console.log('cleared database');
+        createDB();
+        positions.innerHTML = '';
+
+        const posHeaderTemplate = document.querySelector('.position-header-template');
+        const posHeader = posHeaderTemplate.content.cloneNode(true);
+        positions.appendChild(posHeader);
+    }
 });
