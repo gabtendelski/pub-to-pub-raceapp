@@ -151,8 +151,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 
     function clearDB(){ //needs work, deletes data, but requires a reload
-        indexedDB.deleteDatabase('positionsDB');
-        console.log('cleared database');
+        //loop thru db and delete all records 
+        //let request = db.transaction('racePositions', 'readwrite').objectStore('racePositions').delete(item);
         createDB();
         positions.innerHTML = '';
 
