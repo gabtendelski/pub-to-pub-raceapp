@@ -75,8 +75,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 
     async function createDB(){
+        console.log('creating database');
         return new Promise((resolve, reject) => {
             const request = window.indexedDB.open('positionsDB', 1);
+            console.log('database', request);
             request.onupgradeneeded = function(event) {
                 let db = event.target.result;
                 if(!db.objectStoreNames.contains('racePositions')) {
