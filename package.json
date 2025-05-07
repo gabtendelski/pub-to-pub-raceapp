@@ -5,7 +5,8 @@
     "main": "server.js",
     "type": "module",
     "scripts": {
-        "start": "cd server && node server.js"
+        "start": "cd server && node server.js",
+        "setup": ""
     },
     "dependencies": {
         "express": "^4.21.2"

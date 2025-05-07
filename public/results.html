@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="results.js" type="module" defer></script>
+    <script src="app.js" defer></script>
+    <title>Race Results!</title>
+</head>
+<body>
+    <header class="header">
+        <nav>        
+            <a href="index.html">home</a>
+            <a href="timer/timer.html">timer</a>
+            <a href="upload/upload.html">upload</a>
+            <a href="results.html">results</a>
+        </nav>
+    </header>
+    <div id="races-container">
+        <table id="races">
+            <tr>
+                <th>Previous Races</th>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+
+<template class="results-header-template">
+    <tr>
+        <th id="results-table-header">Previous Races</th>
+        <th id="results-table-subheader"></th>
+    </tr>
+</template>
+
+<template class="races-template">
+    <tr>
+        <td class="race-name">race_name</td>
+        <td><button class="view-results-button">View</button></td>
+    </tr>
+</template>
+
+<template class="results-template">
+    <tr>
+        <td class="position-result">1</td>
+        <td class="time-result">00:00:00:00</td>
+    </tr>
+</template>

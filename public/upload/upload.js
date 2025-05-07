@@ -3,14 +3,34 @@ document.addEventListener('DOMContentLoaded', async function() {
     const positions = document.querySelector('.positions');
     const clear = document.querySelector('.cleardb');
 
-    const db = await getDB();
+    let db = await getDB();
     await fillPositions();
     
 
     upload.addEventListener('click', uploadToServer);
+    clear.addEventListener('click', clearDB);
 
     function uploadToServer() {
-        console.log('uploading to server');
+        console.log('Uploading to server');
+        getPositions().then((positionsList) => {
+            fetch('/upload-results', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(positionsList), // Send the positions as JSON
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        console.log('Data uploaded successfully.');
+                    } else {
+                        console.error('Failed to upload data:', response.statusText);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error uploading data:', error);
+                });
+        });
     }
 
     async function getDB(){
@@ -83,6 +103,20 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
     
-    //clearDB() function
+    function clearDB(){
+        db.close();
 
+        const request = window.indexedDB.deleteDatabase('positionsDB');
+        request.onsuccess = function() {
+            console.log('deleted database');
+        };
+
+        positions.innerHTML = '';
+
+        const posHeaderTemplate = document.querySelector('.position-header-template');
+        const posHeader = posHeaderTemplate.content.cloneNode(true);
+        positions.appendChild(posHeader);
+
+        window.location.assign(window.location.href);
+    }
 });

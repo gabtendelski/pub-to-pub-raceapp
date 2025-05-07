@@ -130,3 +130,13 @@ tr {
     height: 4em;
     margin: 1em;
 }
+
+#races-container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 95vh;
+    background-color: #6151c9;
+    position: relative;
+    overflow-y: auto;
+}

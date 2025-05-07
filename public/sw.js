@@ -1,56 +1,56 @@
 const CACHE_NAME = 'static-cache-v1';
 const STATIC_ASSETS = [
-    '/',
-    '/index.html',
-    '/index.js',
-    '/app.js',
-    '/style.css',
-    '/timer/timer.html',
-    '/timer/timer.js',
-    '/upload/upload.html',
-    '/upload/upload.js'
+        '/',
+        '/index.html',
+        '/index.js',
+        '/app.js',
+        '/style.css',
+        '/timer/timer.html',
+        '/timer/timer.js',
+        '/upload/upload.html',
+        '/upload/upload.js'
 ];
 
 async function cacheStaticAssets() {
-    const cache = await caches.open(CACHE_NAME);
-    return cache.addAll(STATIC_ASSETS);
+        const cache = await caches.open(CACHE_NAME);
+        return cache.addAll(STATIC_ASSETS);
 }
 
 self.addEventListener('install', (event) => {
-    console.log('Service Worker installing.');
-    self.skipWaiting();
-    event.waitUntil(cacheStaticAssets());
+        console.log('Service Worker installing.');
+        self.skipWaiting();
+        event.waitUntil(cacheStaticAssets());
 });
-  
+    
 async function cleanupCache() {
-    const keys = await caches.keys();
-    const keysToDelete = keys.map(key => {
-      if (key !== CACHE_NAME) {
-        return caches.delete(key);
-      }
-    });
-    return Promise.all(keysToDelete);
+        const keys = await caches.keys();
+        const keysToDelete = keys.map(key => {
+            if (key !== CACHE_NAME) {
+                return caches.delete(key);
+            }
+        });
+        return Promise.all(keysToDelete);
 }
 
 self.addEventListener('activate', (event) => {
-    console.log('Service Worker activating.');
-    event.waitUntil(cleanupCache());
+        console.log('Service Worker activating.');
+        event.waitUntil(cleanupCache());
 });
 
 async function fetchAssets(event) {
-    try {
-      const response = await fetch(event.request);
-      return response;
-    } catch (err) {
-      const cache = await caches.open(CACHE_NAME);
-      return cache.match(event.request);
-    }
+        try {
+            const response = await fetch(event.request);
+            return response;
+        } catch (err) {
+            const cache = await caches.open(CACHE_NAME);
+            return cache.match(event.request);
+        }
 }
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.url.includes('indexeddb')) {
-    return;
-  }
-  console.log('Service Worker activating.');
-  event.respondWith(fetchAssets(event));
+    if ((event.request.url.includes('indexeddb')) || (event.request.url.includes('/upload-results'))) {
+        return;
+    }
+    console.log('Service Worker activating.');
+    event.respondWith(fetchAssets(event));
 });

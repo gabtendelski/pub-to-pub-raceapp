@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const positions = document.querySelector('.positions');
     const clear = document.querySelector('.cleardb');
 
-    const db = await createDB();
+    let db = await createDB();
 
     await fillPositions();
 
@@ -152,14 +152,29 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
 
-    function clearDB(){ //needs work, deletes data, but requires a reload
-        //loop thru db and delete all records 
-        //let request = db.transaction('racePositions', 'readwrite').objectStore('racePositions').delete(item);
-        createDB();
+    async function clearDB(){
+        /*const transaction = db.transaction('racePositions', 'readwrite');
+        const store = transaction.objectStore('racePositions');
+        const request = store.clear();
+        request.onsuccess = function() {
+            console.log('cleared database');
+        }*/
+
+        db.close();
+
+        const request = window.indexedDB.deleteDatabase('positionsDB');
+        request.onsuccess = function() {
+            console.log('deleted database');
+        };
+
+        db = await createDB();
+
         positions.innerHTML = '';
 
         const posHeaderTemplate = document.querySelector('.position-header-template');
         const posHeader = posHeaderTemplate.content.cloneNode(true);
         positions.appendChild(posHeader);
+
+        window.location.assign(window.location.href);
     }
 });
